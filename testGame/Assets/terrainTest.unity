@@ -2159,6 +2159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69ebbefef7bbb984e93fe1ddd4fdeb11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slowDownDistance: 1.2
   maxCameraVelocity: 0.25
   acellaration: 1
   followOffset: {x: 0, y: 2, z: 4}

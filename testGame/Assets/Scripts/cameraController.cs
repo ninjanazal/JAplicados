@@ -10,6 +10,7 @@ public class cameraController : MonoBehaviour
     private float currentVelocity;
     private bool zoomingIn = true;
 
+    public float slowDownDistance;
     public float maxCameraVelocity;
     public float acellaration;
     public Vector3 followOffset, idlleOffset;
@@ -43,9 +44,18 @@ public class cameraController : MonoBehaviour
 
         zoomingIn = !playerAnimator.GetBool("isWalking");
 
-        currentVelocity = currentVelocity + acellaration * Time.deltaTime;
-        if (currentVelocity > maxCameraVelocity)
-            currentVelocity = maxCameraVelocity;
+        if (zoomingIn && (transform.position - targetPosition).magnitude < slowDownDistance)
+        {
+            currentVelocity = Time.deltaTime * (transform.position - targetPosition).magnitude * maxCameraVelocity / slowDownDistance;
+        }
+        else
+        {
+            currentVelocity = currentVelocity + acellaration * Time.deltaTime;
+            if (currentVelocity > maxCameraVelocity)
+                currentVelocity = maxCameraVelocity;
+        }
+
+
 
         // move camera towards target position
         if ((targetPosition - transform.position).magnitude >
