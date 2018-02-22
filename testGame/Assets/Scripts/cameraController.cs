@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class cameraController : MonoBehaviour
 {
-
-    private Vector3 lookAtOffset;
-    public float lookAtOffsetValue;
-
     private Transform player;
     private Animator playerAnimator;
     private Vector3 targetPosition;
     private float currentVelocity;
+    private bool zoomingIn = true;
 
     public float maxCameraVelocity;
     public float acellaration;
@@ -21,7 +18,7 @@ public class cameraController : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        playerAnimator = player.GetComponent<Animator>();
+        playerAnimator = player.GetComponentInParent<Animator>();
 
         transform.position = player.position - player.forward * idlleOffset.z + player.up * idlleOffset.y;
     }
@@ -31,29 +28,39 @@ public class cameraController : MonoBehaviour
     {
         if (playerAnimator.GetBool("isWalking"))
         {
-            // get player reference
+            if (zoomingIn)
+                currentVelocity = 0;
+            // Place camera in top-down position
             targetPosition = player.position - player.forward * followOffset.z + player.up * followOffset.y;
         }
         else
         {
-            // get player reference
+            if (!zoomingIn)
+                currentVelocity = 0;
+            // Place camera in back position
             targetPosition = player.position - player.forward * idlleOffset.z + player.up * idlleOffset.y;
         }
-        // move camera towards target position
-        if ((targetPosition - transform.position).magnitude > maxCameraVelocity)
-        {
-            transform.position += (targetPosition - transform.position).normalized * maxCameraVelocity;
 
+        zoomingIn = !playerAnimator.GetBool("isWalking");
+
+        currentVelocity = currentVelocity + acellaration * Time.deltaTime;
+        if (currentVelocity > maxCameraVelocity)
+            currentVelocity = maxCameraVelocity;
+
+        // move camera towards target position
+        if ((targetPosition - transform.position).magnitude >
+               currentVelocity)
+        {
+            transform.position +=
+                (targetPosition - transform.position).normalized * currentVelocity;
         }
         else
         {
             transform.position = targetPosition;
-            currentVelocity = 0;
         }
-
         // make camera look at player
-        lookAtOffset = player.position + Vector3.up * lookAtOffsetValue;
-        transform.LookAt(lookAtOffset);
+        transform.LookAt(player.position);
+
 
     }
 
