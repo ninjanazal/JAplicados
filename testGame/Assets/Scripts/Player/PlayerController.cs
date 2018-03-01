@@ -64,7 +64,17 @@ public class PlayerController : MonoBehaviour
 
     public void goThere(Vector3 pos)
     {
-        agent.SetDestination(pos);
+        StopAllCoroutines();
+        StartCoroutine(SetDestination(pos));
+    }
 
+    // corrutina
+    IEnumerator SetDestination(Vector3 pos)
+    {
+        while (animator.GetCurrentAnimatorStateInfo(0).IsName("turnRight") || animator.GetCurrentAnimatorStateInfo(0).IsName("turnLeft"))
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        agent.SetDestination(pos);
     }
 }
