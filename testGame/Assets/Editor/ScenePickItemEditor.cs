@@ -27,8 +27,19 @@ public class ScenePickItemEditor : Editor
                 if (t.childCount > 0)
                     DestroyImmediate(t.GetChild(0).gameObject);
 
-                Instantiate(model, t);
+                GameObject n = Instantiate(model, t);
+                n.tag = "Pick Up";
+
+                ApplyLayerRecursively(t.gameObject, LayerMask.NameToLayer("Ignore Raycast"));
             }
+        }
+    }
+
+    static void ApplyLayerRecursively(GameObject go, int layer)
+    {
+        foreach (var t in go.GetComponentsInChildren<Transform>())
+        {
+            t.gameObject.layer = layer;
         }
     }
 }

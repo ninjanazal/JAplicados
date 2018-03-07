@@ -61,8 +61,7 @@ public class cameraController : MonoBehaviour
         if ((targetPosition - transform.position).magnitude >
                currentVelocity)
         {
-            transform.position +=
-                (targetPosition - transform.position).normalized * currentVelocity;
+            transform.position += (targetPosition - transform.position).normalized * currentVelocity;
         }
         else
         {
