@@ -7,7 +7,7 @@ using System.Linq;
 public class Inventory : MonoBehaviour
 {
 
-    class InventoryItem
+    public class InventoryItem
     {
         public int count;
         public pickUpItem item;
@@ -20,6 +20,9 @@ public class Inventory : MonoBehaviour
     }
 
     List<InventoryItem> items;
+    public int Count { get { return items.Count; } }
+    public InventoryItem this[int index] {get { return items[index]; }
+    }
 
     // Use this for initialization
     void Start()
