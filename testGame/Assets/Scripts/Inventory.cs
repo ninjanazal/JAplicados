@@ -62,4 +62,13 @@ public class Inventory : MonoBehaviour
         }
     }
 
+
+    public void DropItem(int i)
+    {
+        if (items[i].count > 1)
+            items[i].count--;
+        else
+            items.RemoveAt(i);
+
+    }
 }
