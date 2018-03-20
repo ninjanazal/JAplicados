@@ -53,8 +53,9 @@ public class InvetoryUI : MonoBehaviour
     {
         GameObject drop = new GameObject();
         scenePickUpItem pick = drop.AddComponent<scenePickUpItem>();
-        drop.transform.position = inventory.transform.position + inventory.transform.forward + inventory.transform.right + inventory.transform.up;
+        drop.transform.position = inventory.transform.position + inventory.transform.forward + inventory.transform.right + inventory.transform.up * 0.5f;
         pick.item = inventory[i].item;
+        pick.SetItem();
 
         inventory.DropItem(i);
         populateInventory();

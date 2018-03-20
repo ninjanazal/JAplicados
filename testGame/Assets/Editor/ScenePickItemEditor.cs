@@ -20,26 +20,10 @@ public class ScenePickItemEditor : Editor
 
         if (item.objectReferenceValue != null)
         {
-            GameObject model = (item.objectReferenceValue as pickUpItem).model;
-            Transform t = (serializedObject.targetObject as scenePickUpItem).transform;
-            if (model != null)
-            {
-                if (t.childCount > 0)
-                    DestroyImmediate(t.GetChild(0).gameObject);
-
-                GameObject n = Instantiate(model, t);
-                n.tag = "Pick Up";
-
-                ApplyLayerRecursively(t.gameObject, LayerMask.NameToLayer("Ignore Raycast"));
-            }
+            scenePickUpItem component = serializedObject.targetObject as scenePickUpItem;
+            component.SetItem();
         }
     }
 
-    static void ApplyLayerRecursively(GameObject go, int layer)
-    {
-        foreach (var t in go.GetComponentsInChildren<Transform>())
-        {
-            t.gameObject.layer = layer;
-        }
-    }
+   
 }
